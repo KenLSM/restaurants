@@ -8,10 +8,15 @@
   "scripts": {
     "db:accounts:start": "ts-node src/db/accounts/index.ts",
     "server:start": "ts-node src/server/index.ts",
-    "web:start": "webpack serve --mode development --config ./src/webapp/webpack.config.ts"
+    "server:dev": "pm2 start ecosystem.config.js --only server-app",
+    "web:start": "webpack serve --mode development --config ./src/webapp/webpack.config.ts",
+    "web:dev": "pm2 start ecosystem.config.js --only web-app",
+    "db:dev": "pm2 start ecosystem.config.js --only db-app"
   },
   "dependencies": {
     "express": "^4.17.1",
+    "morgan": "^1.10.0",
+    "pm2": "^4.5.6",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "sequelize": "^6.6.2",

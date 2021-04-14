@@ -1,6 +1,8 @@
-import { DataTypes, Sequelize } from "sequelize";
+import { DataTypes, Sequelize, Model } from "sequelize";
 
-export let User: Sequelize['models'][0];
+export class User extends Model { }
+export class Friends extends Model { }
+
 const initializeModels = async (sequelize: Sequelize) => {
     const users = await User.findAll();
     console.log(JSON.stringify(users, null, 2));
@@ -12,11 +14,11 @@ const initializeModels = async (sequelize: Sequelize) => {
     }
 }
 const initialize = async (sequelize: Sequelize) => {
-    sequelize.define('User', {
+    User.init({
         firstName: DataTypes.STRING,
         lastName: DataTypes.STRING,
-    })
-    User = sequelize.models.User;
+    }, { sequelize, modelName: 'User' })
+
     initializeModels(sequelize);
     await sequelize.sync();
 }
