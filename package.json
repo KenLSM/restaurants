@@ -5,15 +5,17 @@
   "main": "index.js",
   "author": "kenlsm <kenlsm@outlook.com>",
   "license": "MIT",
-  "type": "module",
   "scripts": {
-    "server:start": "node --loader ts-node/esm src/server/index.ts",
+    "db:accounts:start": "ts-node src/db/accounts/index.ts",
+    "server:start": "ts-node src/server/index.ts",
     "web:start": "webpack serve --mode development --config ./src/webapp/webpack.config.ts"
   },
   "dependencies": {
     "express": "^4.17.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "sequelize": "^6.6.2",
+    "sqlite3": "^5.0.2",
     "styled-jss": "^2.2.3",
     "ts-node": "^9.1.1",
     "typescript": "^4.2.4"

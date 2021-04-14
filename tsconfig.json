@@ -2,8 +2,11 @@
     "compilerOptions": {
         "jsx": "react",
         "esModuleInterop": true,
-        "target": "esnext",
-        "module": "esnext",
+        "target": "es6",
+        "module": "CommonJS",
         "moduleResolution": "node",
+        "pretty": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true
     },
 }

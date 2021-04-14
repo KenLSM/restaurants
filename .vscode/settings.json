@@ -1,0 +1,11 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "Accounts DB",
+            "database": "src/db/accounts/stores/accounts.sqlite"
+        }
+    ],
+    "sqltools.useNodeRuntime": true
+}
