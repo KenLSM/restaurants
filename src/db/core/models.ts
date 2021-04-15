@@ -14,23 +14,17 @@ const initializeModels = async (sequelize: Sequelize) => {
 
 const initialize = async (sequelize: Sequelize) => {
     Restaurant.init({
-        name: DataTypes.STRING,
+        name: { type: DataTypes.STRING, unique: true, allowNull: false },
     }, { sequelize, modelName: 'Restaurant' });
     OpeningTime.init({
         day: DataTypes.TINYINT,
         start: DataTypes.SMALLINT, // 60 * 24 = 1440, 2^16=  65536
         end: DataTypes.SMALLINT,
-        restId: {
-            type: DataTypes.INTEGER,
-            references: {
-                model: Restaurant,
-                key: 'id',
-            }
-        }
     }, { sequelize, modelName: 'OpeningTime' });
 
+    OpeningTime.belongsTo(Restaurant, { targetKey: 'name', foreignKey: 'restaurantName', constraints: false })
     initializeModels(sequelize);
     await sequelize.sync();
 }
 
-export default initialize
+export default initialize;

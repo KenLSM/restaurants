@@ -5,6 +5,12 @@
             "driver": "SQLite",
             "name": "Accounts DB",
             "database": "src/db/accounts/stores/accounts.sqlite"
+        },
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "Core DB",
+            "database": "src/db/core/stores/core.sqlite"
         }
     ],
     "sqltools.useNodeRuntime": true
