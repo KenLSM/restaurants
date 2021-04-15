@@ -24,13 +24,10 @@ app.use('/core/CMD_GET_RESTAURANTS_BY_NAME', async (req, res) => {
     return res.send(result);
 })
 
-app.use('/core/CMD_SET_RESTAURANT', (req, res) => {
+app.use('/core/CMD_UPSERT_RESTAURANT', async (req, res) => {
     const { name, } = req.query;
-    Restaurant.findOrCreate({ where: { name } });
-    // OpeningTime.create({
-
-    // }) 
-    return res.send();
+    const result = await Restaurant.findOrCreate({ where: { name } });
+    return res.send(result);
 })
 
 app.use('/core/CMD_GET_OPENING_TIME', async (req, res) => {
@@ -43,14 +40,14 @@ app.use('/core/CMD_GET_OPENING_TIME', async (req, res) => {
 
 app.use('/core/CMD_SET_OPENING_TIME', async (req, res) => {
     const { startMinutes, endMinutes, name } = req.query;
-    const rst = await Restaurant.findAll({ where: { name } });
-    if (rst.length > 1) { return res.status(402).send({ error: 'More than one record of Restaurant found', rst }) }
-    if (rst.length == 0) { return res.status(402).send({ error: 'No records of Restaurant', name }) }
-    await OpeningTime.create({
+    const rstRcd = await Restaurant.findAll({ where: { name } });
+    if (rstRcd.length > 1) { return res.status(402).send({ error: 'More than one record of Restaurant found', rstRcd }) }
+    if (rstRcd.length == 0) { return res.status(402).send({ error: 'No records of Restaurant', name }) }
+    const otRcd = await OpeningTime.create({
         start: startMinutes, end: endMinutes,
-        restaurantName: rst[0].getDataValue('name')
+        restaurantName: rstRcd[0].getDataValue('name')
     })
-    return res.send('Ok?')
+    return res.send(otRcd)
 })
 
 app.listen(8082);
