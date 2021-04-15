@@ -11,7 +11,8 @@
     "server:dev": "pm2 start ecosystem.config.js --only server-app",
     "web:start": "webpack serve --mode development --config ./src/webapp/webpack.config.ts",
     "web:dev": "pm2 start ecosystem.config.js --only web-app",
-    "db:dev": "pm2 start ecosystem.config.js --only db-app"
+    "db:dev": "pm2 start ecosystem.config.js --only db-app",
+    "all:dev": "pm2 start ecosystem.config.js"
   },
   "dependencies": {
     "express": "^4.17.1",
