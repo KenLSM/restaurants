@@ -1,20 +1,15 @@
-import { Express, query } from 'express';
-
+import { Express } from 'express';
 
 export default (app: Express) => {
-    app.get('/api/search', (req, res) => {
-        const query = req.query;
-        const { restaurants, time } = query;
-        if (query.restaurants) {
-            const { restaurants } = query;
-        }
-        return res.json({ query, });
-    })
+  app.get('/api/search', (req, res) => {
+    const { query } = req;
+    const { restaurants, time } = query;
+    if (query.restaurants) {
+    }
+    return res.json({ query });
+  });
 
-    app.get("/", (req, res) => {
-        return res.send("hello world");
-    })
+  app.get('/', (req, res) => res.send('hello world'));
 
-
-    console.log('Loaded routes!');
-}
+  console.log('Loaded routes!');
+};

@@ -1,12 +1,12 @@
 {
-    "compilerOptions": {
-        "jsx": "react",
-        "esModuleInterop": true,
-        "target": "es6",
-        "module": "CommonJS",
-        "moduleResolution": "node",
-        "pretty": true,
-        "experimentalDecorators": true,
-        "emitDecoratorMetadata": true
-    },
+  "compilerOptions": {
+    "jsx": "react",
+    "esModuleInterop": true,
+    "target": "es6",
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "pretty": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  }
 }

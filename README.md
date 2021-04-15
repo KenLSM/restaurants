@@ -10,7 +10,7 @@
 ## BE
 
 - [ ] get api/search/query[1]
-  - [ ] name
+  - [x] name
   - [ ] datetime
 
 # Non-func

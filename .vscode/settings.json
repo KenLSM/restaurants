@@ -1,17 +1,23 @@
 {
-    "sqltools.connections": [
-        {
-            "previewLimit": 50,
-            "driver": "SQLite",
-            "name": "Accounts DB",
-            "database": "src/db/accounts/stores/accounts.sqlite"
-        },
-        {
-            "previewLimit": 50,
-            "driver": "SQLite",
-            "name": "Core DB",
-            "database": "src/db/core/stores/core.sqlite"
-        }
-    ],
-    "sqltools.useNodeRuntime": true
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "driver": "SQLite",
+      "name": "Accounts DB",
+      "database": "src/db/accounts/stores/accounts.sqlite"
+    },
+    {
+      "previewLimit": 50,
+      "driver": "SQLite",
+      "name": "Core DB",
+      "database": "src/db/core/stores/core.sqlite"
+    }
+  ],
+  "eslint.workingDirectories": [{ "pattern": "src" }],
+  "sqltools.useNodeRuntime": true,
+  "editor.formatOnSave": true,
+  "eslint.alwaysShowStatus": true,
+  "eslint.format.enable": true,
+  "prettier.enable": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
 }

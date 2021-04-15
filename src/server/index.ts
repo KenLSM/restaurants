@@ -1,15 +1,12 @@
-import express from "express";
-import routes from "./routes";
+import express from 'express';
 import morgan from 'morgan';
+import routes from './routes';
 
 const PORT = 8081;
-const bodyParser = require('body-parser');
+
 const app = express();
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-app.use(morgan('combined'))
-
+app.use(morgan('combined'));
 
 routes(app);
 
