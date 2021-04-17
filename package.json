@@ -16,12 +16,18 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.35",
+    "@fortawesome/free-solid-svg-icons": "^5.15.3",
+    "@fortawesome/react-fontawesome": "^0.1.14",
+    "@types/react-redux": "^7.1.16",
     "express": "^4.17.1",
+    "file-loader": "^6.2.0",
     "glints-aries": "^4.0.129",
     "morgan": "^1.10.0",
     "pm2": "^4.5.6",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-redux": "^7.2.3",
     "react-router-dom": "^5.2.0",
     "sequelize": "^6.6.2",
     "sqlite3": "^5.0.2",
