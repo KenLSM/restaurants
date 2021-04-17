@@ -21,6 +21,10 @@ module.exports = {
         test: /\.svg$/,
         use: ['url-loader'],
       },
+      {
+        test: /\.(jpeg|jpg|png)$/,
+        use: ['file-loader'],
+      },
     ],
   },
   resolve: { extensions: ['*', '.js', '.jsx', '.ts', '.tsx'] },
@@ -34,10 +38,10 @@ module.exports = {
     contentBase: path.join(__dirname, 'public/'),
     port: 3000,
     publicPath: 'http://localhost:3000/dist/',
-    hotOnly: true,
+    hot: true,
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
+    // new webpack.HotModuleReplacementPlugin(),
     new HtmlWebPackPlugin({
       template: path.resolve(__dirname, 'public/index.html'),
       filename: 'index.html',
