@@ -22,6 +22,7 @@
     "@fortawesome/react-fontawesome": "^0.1.14",
     "@reduxjs/toolkit": "^1.5.1",
     "@types/react-redux": "^7.1.16",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "file-loader": "^6.2.0",
     "glints-aries": "^4.0.129",
