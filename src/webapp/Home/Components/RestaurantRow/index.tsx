@@ -60,7 +60,7 @@ const ItemRow = ({ data }: { data: SearchRow }) => {
             <>
               <span>{name}</span>
               <br />
-              <span style={{ fontSize: '12px' }}>{isOpenNow ? 'Open Now!' : 'Closed'}</span>
+              <span style={{ fontSize: '12px' }}>{isOpenNow ? 'Open Now!' : 'Closed Now!'}</span>
             </>
           }
           content={<TimePanel openingTimes={data.OpeningTimes} />}
