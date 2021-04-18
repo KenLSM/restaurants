@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Link, Switch, Route } from 'react-router-dom';
 import { GlintsContainer } from 'glints-aries';
 
 import Home from './Home';
+import SideBar from './SideBar';
+import Collection from './Collection';
 import { Colors } from './Constants/styles';
 
 class App extends Component {
@@ -13,21 +15,21 @@ class App extends Component {
         <GlintsContainer
           style={{
             display: 'flex',
-            flexDirection: 'column',
+            flexDirection: 'row',
             color: Colors.compliment,
           }}
         >
-          <Switch>
-            {/* <Route path="/about">
-              <About />
-            </Route>
-            <Route path="/users">
-              <Users />
-            </Route> */}
-            <Route path="/">
-              <Home />
-            </Route>
-          </Switch>
+          <SideBar />
+          <div style={{ flex: 1 }}>
+            <Switch>
+              <Route path="/collection">
+                <Collection />
+              </Route>
+              <Route path="/">
+                <Home />
+              </Route>
+            </Switch>
+          </div>
         </GlintsContainer>
       </Router>
     );

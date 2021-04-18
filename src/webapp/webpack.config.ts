@@ -47,8 +47,10 @@ module.exports = {
     port: 3000,
     publicPath: 'http://localhost:3000/dist/',
     hot: true,
+    historyApiFallback: true,
   },
   plugins: [
+    new webpack.HotModuleReplacementPlugin(),
     new HtmlWebPackPlugin({
       template: path.resolve(__dirname, 'public/index.html'),
       filename: 'index.html',

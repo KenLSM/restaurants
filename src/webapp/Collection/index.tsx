@@ -1,10 +1,10 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import RestaurantRow from '@/Components/RestaurantRow';
-import SearchBar from './Components/SearchBar';
+import FilterBar from './Components/FilterBar';
 import type { RootStore } from '@/Redux/Reducers';
 
-const Home = () => {
+const Collection = () => {
   const item = useSelector((state: RootStore) => {
     console.log(state);
     return state.results.results;
@@ -16,10 +16,10 @@ const Home = () => {
   return (
     <>
       <div>
-        <SearchBar />
+        <FilterBar />
       </div>
       <div style={{ paddingLeft: '12px', paddingRight: '12px' }}>
-        <h2>Total entries: {itemLength}</h2>
+        <h2>Total Collection entries: {itemLength}</h2>
         {item.map(datum => (
           <RestaurantRow key={datum.id} data={datum} />
         ))}
@@ -28,4 +28,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Collection;
