@@ -21,6 +21,7 @@ app.use('/core/CMD_GET_RESTAURANTS_BY_NAME', async (req, res) => {
     where: {
       name: { [Op.substring]: req.query.name },
     },
+    include: OpeningTime,
   });
   return res.send(result);
 });
@@ -40,7 +41,7 @@ app.use('/core/CMD_GET_OPENING_TIME', async (req, res) => {
 });
 
 app.use('/core/CMD_SET_OPENING_TIME', async (req, res) => {
-  const { startMinutes, endMinutes, name } = req.query;
+  const { startMinutes, endMinutes, name, day } = req.query;
   const rstRcd = await Restaurant.findAll({ where: { name } });
   if (rstRcd.length > 1) {
     return res.status(402).send({ error: 'More than one record of Restaurant found', rstRcd });
@@ -51,7 +52,8 @@ app.use('/core/CMD_SET_OPENING_TIME', async (req, res) => {
   const otRcd = await OpeningTime.create({
     start: startMinutes,
     end: endMinutes,
-    restaurantName: rstRcd[0].getDataValue('name'),
+    day: day,
+    RestaurantId: rstRcd[0].get('id'),
   });
   return res.send(otRcd);
 });
