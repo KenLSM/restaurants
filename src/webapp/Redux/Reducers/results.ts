@@ -1,9 +1,15 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { get } from '@/Utils/api';
 
+export interface SearchRow {
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  id: number;
+}
 interface ResultsState {
   query: string;
-  results: Array<object>;
+  results: Array<SearchRow>;
 }
 
 const initialState = {
@@ -24,15 +30,13 @@ export const ResultsSlice = createSlice({
     updateQuery: (state, action) => {
       state.query = action.payload;
     },
-    updateResults: (state, action) => {
-      state.results = action.payload;
-    },
   },
   extraReducers: builder => {
     builder
       .addCase(getSearch.fulfilled, (state, action) => {
-        console.log(action.payload);
-        // state.results = action.payload;
+        console.log(action.payload.rows);
+        // state.results = [...state.results, ...action.payload.rows];
+        state.results = action.payload.rows;
       })
       .addCase(getSearch.rejected, (state, action) => {
         console.error(action);

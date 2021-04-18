@@ -9,20 +9,23 @@ import { Colors } from '@/Constants/styles';
 import { updateQuery, getSearch } from '@/Redux/Reducers/results';
 
 const SearchBar = () => {
-  const [query, setQuery] = React.useState('');
+  const [query, setQuery] = React.useState('ke');
   const dispatch = useDispatch();
 
-  const debouncedSetQuery = React.useRef(debounce(v => dispatch(updateQuery(v)), 500));
   const debouncedSearchQuery = React.useRef(
-    debounce(v => {
-      dispatch(getSearch());
-      console.log('effect2');
-    }, 500)
+    debounce(
+      q => {
+        if (!q) {
+          return;
+        }
+        dispatch(getSearch(q));
+      },
+      1000,
+      { trailing: true }
+    )
   );
   React.useEffect(() => {
-    // debouncedSearchQuery.current(1);
-    dispatch(getSearch());
-    console.log('effect');
+    debouncedSearchQuery.current(query);
   }, [query]);
 
   return (

@@ -1,4 +1,3 @@
-// import { combineReducers, createStore } from 'redux';
 import { configureStore } from '@reduxjs/toolkit';
 import resultsReducer from './results';
 
@@ -7,4 +6,6 @@ const store = configureStore({
     results: resultsReducer,
   },
 });
+
+export type RootStore = ReturnType<typeof store.getState>;
 export default store;
