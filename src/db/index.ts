@@ -1,12 +1,8 @@
 import express from 'express';
 import './core';
-import './accounts';
 import { Op } from 'sequelize';
 import morgan from 'morgan';
-import { Restaurant, OpeningTime } from './core/models';
-import { User } from './accounts/models';
-
-// import routes from "./routes";
+import { Restaurant, OpeningTime, User, Collection } from './core/models';
 
 const app = express();
 app.use(
@@ -16,8 +12,6 @@ app.use(
 ":referrer" ":user-agent" :total-time ms'
   )
 );
-
-// routes(app);
 
 app.use('/core/CMD_GET_RESTAURANTS_BY_NAME', async (req, res) => {
   const result = await Restaurant.findAndCountAll({
@@ -104,6 +98,48 @@ app.use('/accounts/CMD_REGISTER_ACCOUNT', async (req, res) => {
     return res.send(accRcd);
   }
   return res.send({ err: -1, err_msg: 'Failed to create user' });
+});
+
+app.use('/core/CMD_GET_USER_COLLECTIONS', async (req, res) => {
+  const { userId } = req.query;
+
+  const accRcd = await Collection.findAndCountAll({
+    where: {
+      ownerId: userId,
+    },
+  });
+  if (accRcd) {
+    return res.send(accRcd);
+  }
+  return res.send({ err: -1 });
+});
+
+app.use('/core/CMD_ADD_USER_COLLECTIONS', async (req, res) => {
+  const { userId, rstId } = req.query;
+
+  // @ts-ignore
+  const accRcd = await Collection.create({
+    ownerId: userId,
+    RestaurantId: rstId,
+  });
+  if (accRcd) {
+    return res.send(accRcd);
+  }
+  return res.send({ err: -1 });
+});
+
+app.use('/core/CMD_DELETE_USER_COLLECTIONS', async (req, res) => {
+  const { userId } = req.query;
+
+  const accRcd = await Collection.findAndCountAll({
+    where: {
+      ownerId: userId,
+    },
+  });
+  if (accRcd) {
+    return res.send(accRcd);
+  }
+  return res.send({ err: -1 });
 });
 
 app.listen(8082);

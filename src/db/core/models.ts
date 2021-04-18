@@ -1,15 +1,11 @@
 import { DataTypes, Sequelize, Model } from 'sequelize';
-import { idText } from 'typescript';
 
+// import { User } from '../accounts/models';
 export class Restaurant extends Model {}
-
 export class OpeningTime extends Model {}
-
-const initializeModels = async (sequelize: Sequelize) => {
-  // const restaurants = await Restaurant.findAll();
-  // console.log(JSON.stringify(restaurants, null, 2));
-  // const openingTimes = await OpeningTime.findAll();
-};
+export class Collection extends Model {}
+export class User extends Model {}
+export class Friends extends Model {}
 
 const initialize = async (sequelize: Sequelize) => {
   Restaurant.init(
@@ -26,10 +22,28 @@ const initialize = async (sequelize: Sequelize) => {
     },
     { sequelize, modelName: 'OpeningTime' }
   );
+  User.init(
+    {
+      firstName: DataTypes.STRING,
+      lastName: DataTypes.STRING,
+      username: { type: DataTypes.STRING, unique: true, allowNull: false },
+    },
+    { sequelize, modelName: 'User' }
+  );
+
+  Collection.init(
+    {
+      name: DataTypes.STRING,
+    },
+    { sequelize, modelName: 'Collection' }
+  );
 
   OpeningTime.belongsTo(Restaurant);
   Restaurant.hasMany(OpeningTime);
-  initializeModels(sequelize);
+
+  Collection.belongsTo(Restaurant);
+  Collection.belongsTo(User, { as: 'owner' });
+
   await sequelize.sync();
 };
 
