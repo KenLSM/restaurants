@@ -22,6 +22,7 @@ const SearchBar = () => {
         }
         if (dateQ) {
           dispatch(getSearchWithDate({ strQ, dateQ }));
+          return;
         }
         dispatch(getSearch(strQ));
       },
