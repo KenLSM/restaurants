@@ -1,14 +1,18 @@
 {
   "compilerOptions": {
-    // "jsx": "react",
+    "jsx": "react",
     "esModuleInterop": true,
     "target": "es6",
     "module": "CommonJS",
     "moduleResolution": "node",
     "pretty": true,
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["*"]
+    }
   },
-  "exclude": ["node_modules"]
-  // "include": ["src", "index.d.ts"]
+  "exclude": ["node_modules", "**/dist/*"],
+  "include": ["index.d.ts", "./"]
 }

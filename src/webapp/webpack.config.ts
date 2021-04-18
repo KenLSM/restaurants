@@ -25,9 +25,17 @@ module.exports = {
         test: /\.(jpeg|jpg|png)$/,
         use: ['file-loader'],
       },
+      {
+        test: /\.(ts|tsx)$/,
+        use: ['ts-loader'],
+      },
     ],
   },
-  resolve: { extensions: ['*', '.js', '.jsx', '.ts', '.tsx'] },
+  devtool: 'inline-source-map',
+  resolve: {
+    extensions: ['*', '.js', '.jsx', '.ts', '.tsx'],
+    alias: { '@': path.resolve(__dirname, './') },
+  },
   output: {
     path: path.resolve(__dirname, 'dist/'),
     publicPath: '/dist/',
@@ -41,7 +49,6 @@ module.exports = {
     hot: true,
   },
   plugins: [
-    // new webpack.HotModuleReplacementPlugin(),
     new HtmlWebPackPlugin({
       template: path.resolve(__dirname, 'public/index.html'),
       filename: 'index.html',

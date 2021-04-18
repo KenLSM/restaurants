@@ -1,16 +1,25 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Link, Switch, Route } from 'react-router-dom';
-import styled from 'styled-jss';
-import SearchBar from './Home/Components/SearchBar';
 
 import { GlintsContainer } from 'glints-aries';
+
+import Home from './Home';
+import { Colors } from './Constants/styles';
 
 class App extends Component {
   render() {
     return (
       <Router>
-        <GlintsContainer>
-          <nav>
+        <GlintsContainer
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            height: '100vh',
+            background: Colors.primary,
+            color: Colors.compliment,
+          }}
+        >
+          {/* <nav>
             <ul>
               <li>
                 <Link to="/">Home</Link>
@@ -23,17 +32,15 @@ class App extends Component {
                 <Link to="/users">Users</Link>
               </li>
             </ul>
-          </nav>
+          </nav> */}
 
-          {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
           <Switch>
-            <Route path="/about">
+            {/* <Route path="/about">
               <About />
             </Route>
             <Route path="/users">
               <Users />
-            </Route>
+            </Route> */}
             <Route path="/">
               <Home />
             </Route>
@@ -42,22 +49,5 @@ class App extends Component {
       </Router>
     );
   }
-}
-
-function Home() {
-  return (
-    <div>
-      <h2>Home</h2>
-      <SearchBar />
-    </div>
-  );
-}
-
-function About() {
-  return <h2>About</h2>;
-}
-
-function Users() {
-  return <h2>Users</h2>;
 }
 export default App;
