@@ -29,6 +29,19 @@ export const getSearch = createAsyncThunk('results/getSearch', async (query: str
   return response;
 });
 
+export const getSearchWithDate = createAsyncThunk(
+  'results/getSearchWithDate',
+  async (query: { strQ: string; dateQ: Date }) => {
+    const { strQ, dateQ } = query;
+    const minute = dateQ.getHours() * 60 + dateQ.getMinutes();
+    const day = (dateQ.getDay() + 6) % 7;
+    const response = await get(
+      '/search?restaurants=' + strQ + '&minute=' + minute + '&day=' + day
+    ).then(d => d.json());
+    return response;
+  }
+);
+
 export const ResultsSlice = createSlice({
   name: 'results',
   initialState,
@@ -46,6 +59,14 @@ export const ResultsSlice = createSlice({
         state.results = action.payload.rows;
       })
       .addCase(getSearch.rejected, (state, action) => {
+        console.error(action);
+      })
+      .addCase(getSearchWithDate.fulfilled, (state, action) => {
+        console.log(action.payload.rows);
+        // state.results = [...state.results, ...action.payload.rows];
+        state.results = action.payload.rows;
+      })
+      .addCase(getSearchWithDate.rejected, (state, action) => {
         console.error(action);
       });
   },

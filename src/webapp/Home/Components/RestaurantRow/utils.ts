@@ -1,6 +1,14 @@
 import { OpeningTime } from '@/Redux/Reducers/results';
 
-export const INT_TO_DAY = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+export const INT_TO_DAY = [
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+  'Sunday',
+];
 
 const padTime = (time: number): string => {
   return Math.floor(time).toFixed(0).padStart(2, '0');
@@ -18,7 +26,7 @@ export const minTimeToHours = (time: number): string => {
 export const isNowOpen = (time: OpeningTime) => {
   const now = new Date();
   const nowMins = now.getHours() * 60 + now.getMinutes();
-  const day = now.getDay() + 6;
+  const day = (now.getDay() + 6) % 7;
 
   return nowMins >= time.start && nowMins <= time.end && day == time.day;
 };

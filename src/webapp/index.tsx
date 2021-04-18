@@ -1,4 +1,5 @@
 import 'regenerator-runtime/runtime';
+import 'react-datepicker/dist/react-datepicker.css';
 
 import React from 'react';
 import ReactDOM from 'react-dom';

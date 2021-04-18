@@ -1,44 +1,67 @@
 import React from 'react';
-import { TextField } from 'glints-aries';
+import { TextField, Dropdown } from 'glints-aries';
 import { useDispatch } from 'react-redux';
+import { debounce } from 'lodash';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import { debounce } from 'lodash';
+import DatePicker from 'react-datepicker';
 
 import { Colors } from '@/Constants/styles';
-import { updateQuery, getSearch } from '@/Redux/Reducers/results';
+import { getSearch, getSearchWithDate } from '@/Redux/Reducers/results';
 
 const SearchBar = () => {
-  const [query, setQuery] = React.useState('ke');
+  const [strQuery, setStrQuery] = React.useState('t');
+  const [dateQuery, setDateQuery] = React.useState<Date>(null);
   const dispatch = useDispatch();
 
   const debouncedSearchQuery = React.useRef(
     debounce(
-      q => {
-        if (!q) {
+      (strQ, dateQ) => {
+        if (!strQ) {
           return;
         }
-        dispatch(getSearch(q));
+        if (dateQ) {
+          dispatch(getSearchWithDate({ strQ, dateQ }));
+        }
+        dispatch(getSearch(strQ));
       },
       1000,
       { trailing: true }
     )
   );
   React.useEffect(() => {
-    debouncedSearchQuery.current(query);
-  }, [query]);
+    debouncedSearchQuery.current(strQuery, dateQuery);
+  }, [strQuery, dateQuery]);
 
   return (
-    <div style={{ background: Colors.compliment }}>
-      <TextField
-        allowClear
-        removeFloatingLabel
-        label="Restaurant Name"
-        type="text"
-        startIcon={<FontAwesomeIcon icon={faSearch} style={{ color: Colors.primary }} />}
-        onChange={event => setQuery(event.target.value)}
-        value={query}
-      />
+    <div
+      style={{
+        background: Colors.compliment,
+        display: 'flex',
+        color: Colors.primary,
+        paddingLeft: '12px',
+        paddingRight: '12px',
+      }}
+    >
+      <div style={{ alignSelf: 'center' }}>
+        <DatePicker
+          dateFormat="MMMM d, yyyy h:mm aa"
+          selected={dateQuery}
+          showTimeSelect
+          onChange={(event: Date) => setDateQuery(event)}
+        />
+      </div>
+      <div style={{ flex: 1, alignSelf: 'center' }}>
+        <TextField
+          allowClear
+          removeFloatingLabel
+          label="Restaurant Name"
+          type="text"
+          startIcon={<FontAwesomeIcon icon={faSearch} style={{ color: Colors.primary }} />}
+          onChange={event => setStrQuery(event.target.value)}
+          value={strQuery}
+        />
+      </div>
     </div>
   );
 };

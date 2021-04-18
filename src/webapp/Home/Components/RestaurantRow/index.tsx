@@ -31,8 +31,8 @@ const TimePanel = ({ openingTimes }: { openingTimes: Array<OpeningTime> }) => {
   console.log(groupedTimes);
   return (
     <>
-      {groupedTimes.map(timeSlices => (
-        <DaySlice openTimes={timeSlices} />
+      {groupedTimes.map((timeSlices, idx) => (
+        <DaySlice key={idx} openTimes={timeSlices} />
       ))}
     </>
   );
@@ -48,9 +48,10 @@ const ItemRow = ({ data }: { data: SearchRow }) => {
         background: Colors.auxiliary,
         paddingLeft: '0.5em',
         paddingRight: '0.5em',
-        border: `1px solid ${Colors.compliment}`,
+        marginBottom: '0.2em',
+        border: `1px solid ${Colors.secondary}`,
         color: Colors.primary,
-        borderRadius: '2px',
+        borderRadius: '4px',
       }}
     >
       <Accordion iconPosition="right">
