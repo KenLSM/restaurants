@@ -1,11 +1,18 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { get } from '@/Utils/api';
 
+export interface OpeningTime {
+  id: number;
+  day: number;
+  start: number;
+  end: number;
+}
 export interface SearchRow {
   name: string;
   createdAt: string;
   updatedAt: string;
   id: number;
+  OpeningTimes: Array<OpeningTime>;
 }
 interface ResultsState {
   query: string;
