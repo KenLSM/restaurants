@@ -26,6 +26,23 @@ app.use('/core/CMD_GET_RESTAURANTS_BY_NAME', async (req, res) => {
   return res.send(result);
 });
 
+app.use('/core/CMD_GET_RESTAURANTS_BY_NAME_AND_DATE_AND_TIME', async (req, res) => {
+  const result = await Restaurant.findAndCountAll({
+    where: {
+      name: { [Op.substring]: req.query.name },
+    },
+    include: {
+      model: OpeningTime,
+      where: {
+        day: { [Op.eq]: parseInt(req.query.day as string) },
+        start: { [Op.lte]: parseInt(req.query.time as string) },
+        end: { [Op.gte]: parseInt(req.query.time as string) },
+      },
+    },
+  });
+  return res.send(result);
+});
+
 app.use('/core/CMD_UPSERT_RESTAURANT', async (req, res) => {
   const { name } = req.query;
   const result = await Restaurant.findOrCreate({ where: { name } });
