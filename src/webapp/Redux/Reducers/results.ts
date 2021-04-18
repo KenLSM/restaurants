@@ -1,19 +1,21 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { get } from '@/Utils/api';
 
+interface ResultsState {
+  query: string;
+  results: Array<object>;
+}
+
 const initialState = {
   query: '',
   results: [],
-};
+} as ResultsState;
 
-export const getSearch = createAsyncThunk('results/getSearch', async query => {
-  console.log('searchedd');
-  // const response = '';
-  const response = await get('/search?restaurants=' + query);
+export const getSearch = createAsyncThunk('results/getSearch', async (query: string) => {
+  const response = await get('/search?restaurants=' + query).then(d => d.json());
   return response;
 });
 
-console.log(getSearch('a'));
 export const ResultsSlice = createSlice({
   name: 'results',
   initialState,
