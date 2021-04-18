@@ -10,6 +10,7 @@ const initializeModels = async (sequelize: Sequelize) => {
     User.create({
       firstName: 'John',
       lastName: 'Doe',
+      username: 'johndoe',
     });
   }
 };
@@ -18,8 +19,9 @@ const initialize = async (sequelize: Sequelize) => {
     {
       firstName: DataTypes.STRING,
       lastName: DataTypes.STRING,
+      username: { type: DataTypes.STRING, unique: true, allowNull: false },
     },
-    { sequelize, modelName: 'User' },
+    { sequelize, modelName: 'User' }
   );
 
   initializeModels(sequelize);

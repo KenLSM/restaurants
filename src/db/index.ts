@@ -1,8 +1,11 @@
 import express from 'express';
 import './core';
+import './accounts';
 import { Op } from 'sequelize';
 import morgan from 'morgan';
 import { Restaurant, OpeningTime } from './core/models';
+import { User } from './accounts/models';
+
 // import routes from "./routes";
 
 const app = express();
@@ -73,6 +76,34 @@ app.use('/core/CMD_SET_OPENING_TIME', async (req, res) => {
     RestaurantId: rstRcd[0].get('id'),
   });
   return res.send(otRcd);
+});
+
+app.use('/accounts/CMD_GET_ACCOUNT', async (req, res) => {
+  const { username } = req.query;
+
+  const accRcd = await User.findOne({
+    where: {
+      username,
+    },
+  });
+  if (accRcd) {
+    return res.send(accRcd);
+  }
+  return res.send({ err: -1 });
+});
+
+app.use('/accounts/CMD_REGISTER_ACCOUNT', async (req, res) => {
+  const { username, firstName, lastName } = req.query;
+
+  const accRcd = await User.create({
+    username,
+    firstName,
+    lastName,
+  });
+  if (accRcd) {
+    return res.send(accRcd);
+  }
+  return res.send({ err: -1, err_msg: 'Failed to create user' });
 });
 
 app.listen(8082);
