@@ -95,9 +95,12 @@ export default (app: Express) => {
 
   app.get('/api/user/collection/add', withUserAuth, async (req, res) => {
     // @ts-ignore
-    const { username, userid } = req.user;
+    const { userid } = req.user;
+    const { query } = req;
+    const rstId = query.rstId as string;
+
     const response = await fetch(
-      CORE_BASE_URL + `/CMD_GET_USER_COLLECTIONS?userId=${userid}`
+      CORE_BASE_URL + `/CMD_ADD_USER_COLLECTIONS?userId=${userid}&rstId=${rstId}`
     ).then(d => d.json());
     console.log(response);
     return res.json(response);

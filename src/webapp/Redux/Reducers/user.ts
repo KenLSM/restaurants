@@ -1,5 +1,14 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { get } from '@/Utils/api';
+import type { SearchRow } from './results';
+
+/**
+ * Check if user already has cookie
+ */
+export const getUser = createAsyncThunk(`user/get`, async () => {
+  const response = await get('/user').then(d => d.json());
+  return response;
+});
 
 export const login = createAsyncThunk(`user/login`, async (username: string) => {
   const response = await get('/user/login?username=' + username).then(d => d.json());
@@ -8,6 +17,11 @@ export const login = createAsyncThunk(`user/login`, async (username: string) => 
 
 export const getCollection = createAsyncThunk(`user/getCollection`, async () => {
   const response = await get('/user/collection').then(d => d.json());
+  return response;
+});
+
+export const addCollection = createAsyncThunk(`user/addCollection`, async (rstId: number) => {
+  const response = await get('/user/collection/add?rstId=' + rstId).then(d => d.json());
   return response;
 });
 
@@ -47,7 +61,19 @@ export const UserSlice = createSlice({
         state.userid = action.payload.id;
       })
       .addCase(getCollection.fulfilled, (state, action) => {
-        state.collections = action.payload.rows;
+        console.log(action);
+        state.collections = action.payload.rows.reduce((accum, curRow) => {
+          return accum.concat(curRow.Restaurant);
+        }, []);
+      })
+      .addCase(getUser.fulfilled, (state, action) => {
+        state.username = action.payload.username;
+        state.firstName = action.payload.firstName;
+        state.lastName = action.payload.lastName;
+        state.userid = action.payload.id;
+      })
+      .addCase(addCollection.fulfilled, (state, action) => {
+        // state.collections = [...state.collections, action.payload.rows];
       });
   },
 });

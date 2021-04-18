@@ -7,8 +7,14 @@ import Home from './Home';
 import SideBar from './SideBar';
 import Collection from './Collection';
 import { Colors } from './Constants/styles';
+import { getUser } from '@/Redux/Reducers/user';
+import store from '@/Redux';
 
 class App extends Component {
+  componentDidMount() {
+    store.dispatch(getUser());
+  }
+
   render() {
     return (
       <Router>

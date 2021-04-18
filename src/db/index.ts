@@ -107,6 +107,9 @@ app.use('/core/CMD_GET_USER_COLLECTIONS', async (req, res) => {
     where: {
       ownerId: userId,
     },
+    include: {
+      model: Restaurant,
+    },
   });
   if (accRcd) {
     return res.send(accRcd);

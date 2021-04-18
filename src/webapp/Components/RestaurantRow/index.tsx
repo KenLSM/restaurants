@@ -1,7 +1,12 @@
 import React from 'react';
 import { Accordion } from 'glints-aries';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faHeart as faHeartReg } from '@fortawesome/free-regular-svg-icons';
+import { useDispatch } from 'react-redux';
 
 import { SearchRow, OpeningTime } from '@/Redux/Reducers/results';
+import { addCollection } from '@/Redux/Reducers/user';
 import { Colors } from '@/Constants/styles';
 
 import { minTimeToHours, INT_TO_DAY, isNowOpen } from './utils';
@@ -41,7 +46,14 @@ const TimePanel = ({ openingTimes }: { openingTimes: Array<OpeningTime> }) => {
 const ItemRow = ({ data }: { data: SearchRow }) => {
   console.log(data);
   const { name } = data;
-  const isOpenNow = data.OpeningTimes.some(isNowOpen);
+  const isOpenNow = data.OpeningTimes?.some(isNowOpen);
+  const dispatch = useDispatch();
+
+  const handleToggleLike = event => {
+    event.stopPropagation();
+    dispatch(addCollection(data.id));
+  };
+
   return (
     <div
       style={{
@@ -58,12 +70,17 @@ const ItemRow = ({ data }: { data: SearchRow }) => {
         <Accordion.Panel
           label={
             <>
+              <FontAwesomeIcon
+                onClick={handleToggleLike}
+                icon={faHeartReg}
+                style={{ color: 'red', marginRight: '12px' }}
+              />
               <span>{name}</span>
               <br />
               <span style={{ fontSize: '12px' }}>{isOpenNow ? 'Open Now!' : 'Closed Now!'}</span>
             </>
           }
-          content={<TimePanel openingTimes={data.OpeningTimes} />}
+          content={data.OpeningTimes ? <TimePanel openingTimes={data.OpeningTimes} /> : null}
         />
       </Accordion>
     </div>

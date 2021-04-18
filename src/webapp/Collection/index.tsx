@@ -8,13 +8,14 @@ import type { RootStore } from '@/Redux';
 import { getCollection } from '@/Redux/Reducers/user';
 
 const Collection = () => {
-  const item = useSelector((state: RootStore) => {
-    return state.results.results;
-  });
-
   const user = useSelector((state: RootStore) => {
     return state.user;
   });
+  // const item = useSelector((state: RootStore) => {
+  //   return state.results.results;
+  // });
+
+  const item = user.collections;
 
   const dispatch = useDispatch();
   const itemLength = item.length;
@@ -39,6 +40,7 @@ const Collection = () => {
       <div style={{ paddingLeft: '12px', paddingRight: '12px' }}>
         <h2>Total Collection entries: {itemLength}</h2>
         {item.map(datum => (
+          // @ts-ignore
           <RestaurantRow key={datum.id} data={datum} />
         ))}
       </div>
