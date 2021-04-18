@@ -2,16 +2,16 @@
 
 ## FE
 
-- [ ] user identification
-  - [ ] user login
-- [ ] query by name
-- [ ] query by exact datetime
+- [x] user identification
+  - [x] user login
+- [x] query by name
+- [x] query by exact datetime
 
 ## BE
 
-- [ ] get api/search/query[1]
+- [x] get api/search/query[1]
   - [x] name
-  - [ ] datetime
+  - [x] datetime
 
 # Non-func
 
