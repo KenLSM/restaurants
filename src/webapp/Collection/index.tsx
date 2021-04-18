@@ -1,17 +1,35 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+
 import RestaurantRow from '@/Components/RestaurantRow';
 import FilterBar from './Components/FilterBar';
-import type { RootStore } from '@/Redux/Reducers';
+import LoginPanel from './Components/LoginPanel';
+import type { RootStore } from '@/Redux';
+import { getCollection } from '@/Redux/Reducers/user';
 
 const Collection = () => {
   const item = useSelector((state: RootStore) => {
-    console.log(state);
     return state.results.results;
   });
+
+  const user = useSelector((state: RootStore) => {
+    return state.user;
+  });
+
+  const dispatch = useDispatch();
   const itemLength = item.length;
+  const isLoggedIn = user?.username;
 
   console.log({ item });
+  React.useEffect(() => {
+    if (isLoggedIn) {
+      dispatch(getCollection());
+    }
+  }, [isLoggedIn]);
+
+  if (!isLoggedIn) {
+    return <LoginPanel />;
+  }
 
   return (
     <>

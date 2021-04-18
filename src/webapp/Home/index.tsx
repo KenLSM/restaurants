@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import RestaurantRow from '@/Components/RestaurantRow';
 import SearchBar from './Components/SearchBar';
-import type { RootStore } from '@/Redux/Reducers';
+import type { RootStore } from '@/Redux';
 
 const Home = () => {
   const item = useSelector((state: RootStore) => {
