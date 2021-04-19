@@ -54,16 +54,12 @@ export const ResultsSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(getSearch.fulfilled, (state, action) => {
-        console.log(action.payload.rows);
-        // state.results = [...state.results, ...action.payload.rows];
         state.results = action.payload.rows;
       })
       .addCase(getSearch.rejected, (state, action) => {
         console.error(action);
       })
       .addCase(getSearchWithDate.fulfilled, (state, action) => {
-        console.log(action.payload.rows);
-        // state.results = [...state.results, ...action.payload.rows];
         state.results = action.payload.rows;
       })
       .addCase(getSearchWithDate.rejected, (state, action) => {

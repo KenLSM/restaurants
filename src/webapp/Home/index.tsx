@@ -6,12 +6,9 @@ import type { RootStore } from '@/Redux';
 
 const Home = () => {
   const item = useSelector((state: RootStore) => {
-    console.log(state);
     return state.results.results;
   });
   const itemLength = item.length;
-
-  console.log({ item });
 
   return (
     <>

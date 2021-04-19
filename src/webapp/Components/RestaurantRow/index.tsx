@@ -34,7 +34,6 @@ const TimePanel = ({ openingTimes }: { openingTimes: Array<OpeningTime> }) => {
     accum[curTime.day] = [...accum[curTime.day], curTime];
     return accum;
   }, []);
-  console.log(groupedTimes);
   return (
     <>
       {groupedTimes.map((timeSlices, idx) => (
@@ -45,7 +44,6 @@ const TimePanel = ({ openingTimes }: { openingTimes: Array<OpeningTime> }) => {
 };
 
 const ItemRow = ({ data }: { data: SearchRow }) => {
-  console.log(data);
   const { name } = data;
   const isOpenNow = data.OpeningTimes?.some(isNowOpen);
   const dispatch = useDispatch();

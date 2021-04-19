@@ -23,7 +23,6 @@ export const addCollection = createAsyncThunk(
     const queryParams = new URLSearchParams(query).toString();
     const response = await get('/collection/add?' + queryParams).then(d => d.json());
 
-    console.log({ response });
     if (response.err == -1) {
       thunkApi.dispatch(showDangerAlert(response.error_msg));
     }

@@ -10,7 +10,6 @@ import { RootStore } from '@/Redux';
 import { faCircle, faCheckCircle } from '@fortawesome/free-regular-svg-icons';
 
 const Restaurants = ({ restaurants }) => {
-  console.log({ restaurants });
   return (
     <div>
       {restaurants.map(restaurant => (
@@ -34,7 +33,6 @@ const CollectionRow = ({ data }: { data: Collection }) => {
   };
 
   const isActive = data.id === selectedCollectionId;
-  console.log({ data, selectedCollectionId });
   return (
     <div
       style={{
