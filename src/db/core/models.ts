@@ -3,9 +3,12 @@ import { DataTypes, Sequelize, Model } from 'sequelize';
 // import { User } from '../accounts/models';
 export class Restaurant extends Model {}
 export class OpeningTime extends Model {}
+
 export class Collection extends Model {}
+export class CollectionRelation extends Model {}
+export class RestaurantCollection extends Model {}
+
 export class User extends Model {}
-export class Friends extends Model {}
 
 const initialize = async (sequelize: Sequelize) => {
   Restaurant.init(
@@ -37,12 +40,28 @@ const initialize = async (sequelize: Sequelize) => {
     },
     { sequelize, modelName: 'Collection' }
   );
+  CollectionRelation.init(
+    {
+      type: DataTypes.STRING,
+    },
+    { sequelize, modelName: 'CollectionRelation' }
+  );
+  RestaurantCollection.init({}, { sequelize, modelName: 'RestaurantCollection' });
 
   OpeningTime.belongsTo(Restaurant);
   Restaurant.hasMany(OpeningTime);
 
-  Collection.belongsTo(Restaurant);
+  User.hasMany(Collection, { constraints: false });
   Collection.belongsTo(User, { as: 'owner' });
+
+  Collection.hasMany(RestaurantCollection, { constraints: false });
+  RestaurantCollection.hasOne(Collection, { constraints: false });
+
+  CollectionRelation.hasOne(User);
+  User.hasMany(CollectionRelation, { constraints: false });
+
+  Collection.belongsToMany(Restaurant, { through: RestaurantCollection });
+  Restaurant.belongsToMany(Collection, { through: RestaurantCollection });
 
   await sequelize.sync();
 };

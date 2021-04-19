@@ -2,7 +2,7 @@ import express from 'express';
 import './core';
 import { Op } from 'sequelize';
 import morgan from 'morgan';
-import { Restaurant, OpeningTime, User, Collection } from './core/models';
+import { Restaurant, OpeningTime, User, Collection, RestaurantCollection } from './core/models';
 
 const app = express();
 app.use(
@@ -118,32 +118,59 @@ app.use('/core/CMD_GET_USER_COLLECTIONS', async (req, res) => {
 });
 
 app.use('/core/CMD_ADD_USER_COLLECTIONS', async (req, res) => {
-  const { userId, rstId } = req.query;
+  const { colId, rstId } = req.query;
+  console.log({ query: req.query });
 
-  // @ts-ignore
-  const accRcd = await Collection.create({
-    ownerId: userId,
-    RestaurantId: rstId,
-  });
-  if (accRcd) {
-    return res.send(accRcd);
-  }
-  return res.send({ err: -1 });
-});
-
-app.use('/core/CMD_DELETE_USER_COLLECTIONS', async (req, res) => {
-  const { userId } = req.query;
-
-  const accRcd = await Collection.findAndCountAll({
+  const checkRcd = await RestaurantCollection.findOne({
     where: {
-      ownerId: userId,
+      CollectionId: { [Op.eq]: colId },
+      RestaurantId: { [Op.eq]: rstId },
     },
   });
+
+  if (checkRcd) {
+    console.log({ checkRcd });
+    return res.status(400).send({ err: -1, error_msg: 'Already have collection' });
+  }
+
+  const accRcd = await RestaurantCollection.create({
+    CollectionId: colId,
+    RestaurantId: rstId,
+  }).catch(e => e);
+  console.log({ accRcd });
   if (accRcd) {
     return res.send(accRcd);
   }
   return res.send({ err: -1 });
 });
+
+app.use('/core/CMD_CREATE_USER_COLLECTIONS', async (req, res) => {
+  const { userId, name } = req.query;
+
+  const accRcd = await Collection.create({
+    name: name,
+    ownerId: userId,
+  });
+
+  if (accRcd) {
+    return res.send(accRcd);
+  }
+  return res.send({ err: -1 });
+});
+
+// app.use('/core/CMD_DELETE_USER_COLLECTIONS', async (req, res) => {
+//   const { userId } = req.query;
+
+//   const accRcd = await Collection.findAndCountAll({
+//     where: {
+//       ownerId: userId,
+//     },
+//   });
+//   if (accRcd) {
+//     return res.send(accRcd);
+//   }
+//   return res.send({ err: -1 });
+// });
 
 app.listen(8082);
 console.log('DB start!');
