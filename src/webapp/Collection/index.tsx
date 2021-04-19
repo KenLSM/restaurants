@@ -1,32 +1,48 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { TextField, Button } from 'glints-aries';
 
-import RestaurantRow from '@/Components/RestaurantRow';
 import FilterBar from './Components/FilterBar';
 import LoginPanel from './Components/LoginPanel';
 import type { RootStore } from '@/Redux';
-import { getCollection } from '@/Redux/Reducers/user';
+import { getUserCollection } from '@/Redux/Reducers/collection';
+import { newCollection } from '@/Redux/Reducers/collection';
+import { debounce } from 'lodash';
+import CollectionRow from './Components/CollectionRow';
 
 const Collection = () => {
-  const user = useSelector((state: RootStore) => {
+  const collectionState = useSelector((state: RootStore) => {
+    return state.collection;
+  });
+  const userState = useSelector((state: RootStore) => {
     return state.user;
   });
-  // const item = useSelector((state: RootStore) => {
-  //   return state.results.results;
-  // });
+  const [collectionName, setCollectionName] = React.useState('');
 
-  const item = user.collections;
+  const item = collectionState.collections;
 
   const dispatch = useDispatch();
   const itemLength = item.length;
-  const isLoggedIn = user?.username;
+  const isLoggedIn = userState?.username;
 
-  console.log({ item });
   React.useEffect(() => {
     if (isLoggedIn) {
-      dispatch(getCollection());
+      dispatch(getUserCollection());
     }
   }, [isLoggedIn]);
+
+  const debouncedCreateCollection = React.useRef(
+    debounce(
+      value => {
+        if (!value) {
+          return;
+        }
+        dispatch(newCollection(value));
+      },
+      1000,
+      { leading: true }
+    )
+  );
 
   if (!isLoggedIn) {
     return <LoginPanel />;
@@ -38,10 +54,24 @@ const Collection = () => {
         <FilterBar />
       </div>
       <div style={{ paddingLeft: '12px', paddingRight: '12px' }}>
+        <TextField
+          allowClear
+          removeFloatingLabel
+          label="collectionName"
+          onChange={event => setCollectionName(event.target.value)}
+          type="text"
+          value={collectionName}
+        />
+        <div style={{ marginTop: '12px' }}>
+          <Button onClick={() => debouncedCreateCollection.current(collectionName)} variant="ghost">
+            Create New Collection
+          </Button>
+        </div>
+      </div>
+      <div style={{ paddingLeft: '12px', paddingRight: '12px' }}>
         <h2>Total Collection entries: {itemLength}</h2>
-        {item.map(datum => (
-          // @ts-ignore
-          <RestaurantRow key={datum.id} data={datum} />
+        {collectionState.collections.map(datum => (
+          <CollectionRow key={datum.id} data={datum} />
         ))}
       </div>
     </>

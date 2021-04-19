@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { debounce } from 'lodash';
 
 import { TextField, Button } from 'glints-aries';
-import { login } from '@/Redux/Reducers/user';
+import { login, register } from '@/Redux/Reducers/user';
 
 const LoginPanel = () => {
   const [username, setUsername] = React.useState('');
@@ -16,6 +16,19 @@ const LoginPanel = () => {
           return;
         }
         dispatch(login(value));
+      },
+      1000,
+      { leading: true }
+    )
+  );
+
+  const debouncedRegister = React.useRef(
+    debounce(
+      value => {
+        if (!value) {
+          return;
+        }
+        dispatch(register(value));
       },
       1000,
       { leading: true }
@@ -41,9 +54,9 @@ const LoginPanel = () => {
         >
           Login
         </Button>
-        {/* <Button onClick={function noRefCheck() {}} variant="ghost">
+        <Button onClick={() => debouncedRegister.current(username)} variant="ghost">
           Register
-        </Button> */}
+        </Button>
       </div>
     </div>
   );

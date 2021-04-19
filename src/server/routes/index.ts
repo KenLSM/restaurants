@@ -38,13 +38,18 @@ export default (app: Express) => {
   app.get('/api/user/register', async (req, res) => {
     const { query } = req;
     const username = query.username as string;
-    const firstName = query.firstName as string;
-    const lastName = query.lastName as string;
+    const firstName = (query.firstName as string) || username; // no time do
+    const lastName = (query.lastName as string) || username; // no time do
     const queryParams = new URLSearchParams({
       username,
       firstName,
       lastName,
     });
+
+    if (!username || !firstName || !lastName) {
+      return res.status(400).json(query);
+    }
+
     const response = await fetch(
       ACCOUNT_BASE_URL + '/CMD_REGISTER_ACCOUNT?' + queryParams
     ).then(d => d.json());
@@ -54,6 +59,7 @@ export default (app: Express) => {
     }
     return res.json(response);
   });
+
   app.get('/api/user/login', async (req, res) => {
     const { query } = req;
     const username = query.username as string;
@@ -83,7 +89,7 @@ export default (app: Express) => {
     return res.json({ err: '??' });
   });
 
-  app.get('/api/user/collection', withUserAuth, async (req, res) => {
+  app.get('/api/collection/user/get', withUserAuth, async (req, res) => {
     // @ts-ignore
     const { username, userid } = req.user;
     const response = await fetch(
@@ -93,16 +99,37 @@ export default (app: Express) => {
     return res.json(response);
   });
 
-  app.get('/api/user/collection/add', withUserAuth, async (req, res) => {
+  app.get('/api/collection/new', withUserAuth, async (req, res) => {
+    // @ts-ignore
+    const { userid } = req.user;
+    const { query } = req;
+    const name = query.name as string;
+
+    const response = await fetch(
+      CORE_BASE_URL + `/CMD_CREATE_USER_COLLECTIONS?userId=${userid}&name=${name}`
+    ).then(d => d.json());
+    console.log(response);
+    return res.json(response);
+  });
+
+  app.get('/api/collection/add', withUserAuth, async (req, res) => {
     // @ts-ignore
     const { userid } = req.user;
     const { query } = req;
     const rstId = query.rstId as string;
-
-    const response = await fetch(
-      CORE_BASE_URL + `/CMD_ADD_USER_COLLECTIONS?userId=${userid}&rstId=${rstId}`
+    const colId = query.colId as string;
+    // owner check
+    const userCollections = await fetch(
+      CORE_BASE_URL + `/CMD_GET_USER_COLLECTIONS?userId=${userid}`
     ).then(d => d.json());
-    console.log(response);
+
+    if ((userCollections.rows as Array<any>).some(row => String(row.id) === colId) === false) {
+      console.log({ rows: userCollections.rows, colId });
+      return res.status(403).json({ err: -1, error_msg: 'not your collection' });
+    }
+    const response = await fetch(
+      CORE_BASE_URL + `/CMD_ADD_USER_COLLECTIONS?rstId=${rstId}&colId=${colId}`
+    ).then(d => d.json());
     return res.json(response);
   });
 

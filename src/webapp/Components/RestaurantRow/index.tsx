@@ -1,15 +1,16 @@
 import React from 'react';
 import { Accordion } from 'glints-aries';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as faHeartReg } from '@fortawesome/free-regular-svg-icons';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { SearchRow, OpeningTime } from '@/Redux/Reducers/results';
-import { addCollection } from '@/Redux/Reducers/user';
+import { addCollection } from '@/Redux/Reducers/collection';
 import { Colors } from '@/Constants/styles';
 
 import { minTimeToHours, INT_TO_DAY, isNowOpen } from './utils';
+import { RootStore } from '@/Redux';
+import { showWarningAlert } from '@/Redux/Reducers/alert';
 
 const DaySlice = ({ openTimes }: { openTimes: Array<OpeningTime> }) => {
   if (openTimes.length <= 0) return;
@@ -48,10 +49,15 @@ const ItemRow = ({ data }: { data: SearchRow }) => {
   const { name } = data;
   const isOpenNow = data.OpeningTimes?.some(isNowOpen);
   const dispatch = useDispatch();
+  const { selectedCollectionId } = useSelector((state: RootStore) => state.collection);
 
   const handleToggleLike = event => {
     event.stopPropagation();
-    dispatch(addCollection(data.id));
+    if (!selectedCollectionId) {
+      dispatch(showWarningAlert('Please select a collection from My Collections first!'));
+      return;
+    }
+    dispatch(addCollection({ rstId: String(data.id), colId: String(selectedCollectionId) }));
   };
 
   return (
