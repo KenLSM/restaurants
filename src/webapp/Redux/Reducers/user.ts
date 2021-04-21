@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { get } from '@/Utils/api';
+import { showDangerAlert } from './alert';
 
 /**
  * Check if user already has cookie
@@ -14,8 +15,16 @@ export const register = createAsyncThunk(`user/register`, async (username: strin
   return response;
 });
 
-export const login = createAsyncThunk(`user/login`, async (username: string) => {
+export const logout = createAsyncThunk(`user/logout`, async () => {
+  const response = await get('/user/logout').then(d => d.json());
+  return response;
+});
+
+export const login = createAsyncThunk(`user/login`, async (username: string, thunkApi) => {
   const response = await get('/user/login?username=' + username).then(d => d.json());
+  if (response.err == -1) {
+    thunkApi.dispatch(showDangerAlert(response.error_msg));
+  }
   return response;
 });
 
@@ -29,7 +38,6 @@ const initialState = {
   username: null,
   firstName: null,
   lastName: null,
-
   userid: null,
 } as UserState;
 
@@ -57,6 +65,12 @@ export const UserSlice = createSlice({
         state.firstName = action.payload.firstName;
         state.lastName = action.payload.lastName;
         state.userid = action.payload.id;
+      })
+      .addCase(logout.fulfilled, (state, action) => {
+        state.username = null;
+        state.lastName = null;
+        state.lastName = null;
+        state.userid = null;
       }),
 });
 

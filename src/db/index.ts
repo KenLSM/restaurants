@@ -83,7 +83,7 @@ app.use('/accounts/CMD_GET_ACCOUNT', async (req, res) => {
   if (accRcd) {
     return res.send(accRcd);
   }
-  return res.send({ err: -1 });
+  return res.send({ err: -1, error_msg: 'No such user' });
 });
 
 app.use('/accounts/CMD_REGISTER_ACCOUNT', async (req, res) => {

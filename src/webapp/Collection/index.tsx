@@ -1,14 +1,14 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { debounce } from 'lodash';
 import { TextField, Button } from 'glints-aries';
 
-import FilterBar from './Components/FilterBar';
-import LoginPanel from './Components/LoginPanel';
 import type { RootStore } from '@/Redux';
 import { getUserCollection } from '@/Redux/Reducers/collection';
 import { newCollection } from '@/Redux/Reducers/collection';
-import { debounce } from 'lodash';
 import CollectionRow from './Components/CollectionRow';
+import UserStatusBar from './Components/UserStatusBar';
+import LoginPanel from './Components/LoginPanel';
 
 const Collection = () => {
   const collectionState = useSelector((state: RootStore) => {
@@ -51,7 +51,7 @@ const Collection = () => {
   return (
     <>
       <div>
-        <FilterBar />
+        <UserStatusBar />
       </div>
       <div style={{ paddingLeft: '12px', paddingRight: '12px' }}>
         <TextField

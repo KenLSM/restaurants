@@ -48,6 +48,16 @@ export default app => {
     return res.json({ query });
   });
 
+  app.get('/api/user/logout', async (req, res) => {
+    const { query } = req;
+    const username = query.username as string;
+
+    res.cookie(TOKEN_KEY, null, { maxAge: 1 });
+    res.cookie(USERNAME_KEY, null, { maxAge: 1 });
+    res.cookie(USER_ID_KEY, null, { maxAge: 1 });
+    return res.json({ logout: true });
+  });
+
   app.get('/api/user', withUserAuth, async (req, res) => {
     // @ts-ignore
     const { username } = req.user;
