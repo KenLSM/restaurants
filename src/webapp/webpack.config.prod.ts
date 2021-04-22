@@ -47,7 +47,8 @@ module.exports = {
     publicPath: '/dist/',
     historyApiFallback: true,
     host: '0.0.0.0',
-    disableHostCheck: true
+    disableHostCheck: true,
+    injectClient: false,
   },
   plugins: [
     new HtmlWebPackPlugin({

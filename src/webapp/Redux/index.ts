@@ -13,5 +13,6 @@ const store = configureStore({
   },
 });
 
+// @ts-ignore
 export type RootStore = ReturnType<typeof store.getState>;
 export default store;

@@ -1,4 +1,4 @@
-const BASE_URL = false && process?.env.ENV === 'live' ? '' : 'http://localhost:8081/api';
+const BASE_URL = 'http://agrest.kenlsm.com/api';
 
 const fetchApi = url => {
   return fetch(url, {
