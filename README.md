@@ -19,7 +19,7 @@ For web
 
 For API Server
 - `yarn server:dev`
-- 
+
 For DB
 - `yarn db:dev`
 
