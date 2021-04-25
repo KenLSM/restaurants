@@ -1,3 +1,29 @@
+# Folder Structure
+
+Folder | Purpose
+------------ | -------------
+webapp | Webserver (Webpack + React)
+server | API service (Express)
+db | DB Store + DB Server (Express + Sequelize + sqlite)
+
+# How to run Locally?
+1) Firstly, get all the dependencies through
+- `yarn`
+
+2a) Spawning all three servers (pm2)
+- `yarn all:dev`
+
+2b) Spawning individually
+For web
+- `yarn web:dev`
+
+For API Server
+- `yarn server:dev`
+- 
+For DB
+- `yarn db:dev`
+
+# Other notes
 # Func Requirements
 
 ## FE
